@@ -30,11 +30,11 @@ public class AdminGUI extends JFrame {
     private JTextField fld_name;
     private JLabel lbl_password;
     private JTextField fld_password;
-    private JLabel lbl_type;
     private JComboBox cmb_type;
     private JButton btn_adduser;
     private JTextField fld_user_ıd;
     private JButton btn_user_delete;
+    private JLabel lbl_type;
     private Admin operator;
     private DefaultTableModel mdl_user_list;
     Object []row_user_list;

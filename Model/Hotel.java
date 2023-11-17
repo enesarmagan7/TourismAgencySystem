@@ -98,10 +98,10 @@ public class Hotel {
                 obj.setId(rs.getInt("id"));
                 obj.setName(rs.getString("name"));
                 obj.setStar(rs.getString("star"));
-                obj.setProperty(rs.getString("property"));
+                obj.setProperty(rs.getString("hotel_property"));
                 obj.setAddress(rs.getString("address"));
                 obj.setPhone(rs.getString("phone"));
-                obj.setEmail(rs.getString("property"));
+                obj.setEmail(rs.getString("email"));
 
 
                 hotelList.add(obj);
@@ -112,7 +112,7 @@ public class Hotel {
         return hotelList;
     }
     public static boolean add(String name,String star,String property,String address,String phone,String email){
-        String query="INSERT INTO hotel (name,star,property,address,phone,email) VALUES(?,?,?,?,?,?)";
+        String query="INSERT INTO hotel (name,star,hotel_property,address,phone,email) VALUES(?,?,?,?,?,?)";
         Hotel findHotel=Hotel.getFetchByEmail(email);
         if(findHotel!=null){
             Helper.showMsg("Bu otel daha önce sisteme kaydedildi.");
@@ -148,7 +148,7 @@ public class Hotel {
             pr.setString(1,email);
             ResultSet rs=pr.executeQuery();
             if(rs.next()){
-                obj=new Hotel(rs.getInt("Id"),rs.getString("name"),rs.getString("star"),rs.getString("property"),rs.getString("address"),rs.getString("phone"),rs.getString("property"));
+                obj=new Hotel(rs.getInt("id"),rs.getString("name"),rs.getString("star"),rs.getString("hotel_property"),rs.getString("address"),rs.getString("phone"),rs.getString("email"));
             }
         }catch (SQLException e){
 e.printStackTrace();
@@ -165,7 +165,7 @@ e.printStackTrace();
             pr.setInt(1,id);
             ResultSet rs=pr.executeQuery();
             if(rs.next()){
-                obj=new Hotel(rs.getInt("Id"),rs.getString("name"),rs.getString("star"),rs.getString("property"),rs.getString("address"),rs.getString("phone"),rs.getString("property"));
+                obj=new Hotel(rs.getInt("id"),rs.getString("name"),rs.getString("star"),rs.getString("hotel_property"),rs.getString("address"),rs.getString("phone"),rs.getString("email"));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -173,4 +173,28 @@ e.printStackTrace();
 
         return obj;
     }
+    public static Hotel getHotelByRoomID(int room_id){
+
+        String query="SELECT r.id , r.room_type, r.stock, r.season_id, r.adult_price, r.child_price,\n" +
+                "                h.id , h.name, h.star, h.hotel_property, h.address, h.phone, h.email\n" +
+                "        FROM Room r\n" +
+                "        JOIN Hotel h ON r.hotel_id = h.id\n" +
+                "        WHERE r.id = ?;";
+        Hotel obj=null;
+
+        try{
+            PreparedStatement pr= DBConnector.getInstace().prepareStatement(query);
+            pr.setInt(1,room_id);
+            ResultSet rs=pr.executeQuery();
+            if(rs.next()){
+                obj=new Hotel(rs.getInt("id"),rs.getString("name"),rs.getString("star"),rs.getString("hotel_property"),rs.getString("address"),rs.getString("phone"),rs.getString("email"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+
 }

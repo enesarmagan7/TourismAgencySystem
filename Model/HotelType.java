@@ -72,7 +72,7 @@ public static boolean add(String type,int hotel_id){
             ResultSet rs=pr.executeQuery();
             while(rs.next()){
                 obj=new HotelType();
-                obj.setHotel_id(rs.getInt("id"));
+                obj.setId(rs.getInt("id"));
                 obj.setType(rs.getString("type"));
                 obj.setHotel_id(rs.getInt("hotel_id"));
                 hotelTypeList.add(obj);

@@ -110,18 +110,23 @@ public class Helper {
         }
       return type;
     }
-    public static String roomProeprty(String number){
+    public static String roomProperty(String number){
         String property ="";
-        switch("number"){
-            case "1":property="televizyon";
+        switch(number){
+            case "1":
+                property="televizyon";
             break;
-            case "2":property="Minibar";
+            case "2":
+                property="Minibar";
             break;
-            case "3":property="Oyun Konsolu";
+            case "3":
+                property="Oyun Konsolu";
             break;
-            case "4": property="Kasa";
+            case "4":
+                property="Kasa";
             break;
-            case"5": property="Projeksiyon";
+            case"5":
+                property="Projeksiyon";
             break;
         }
         return property;

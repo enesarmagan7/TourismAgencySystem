@@ -73,12 +73,14 @@ public class HotelSeason {
     public static ArrayList<HotelSeason> getListByHotelID(int id){
         String query="SELECT* FROM season WHERE id=?";
         ArrayList<HotelSeason> seasons=new ArrayList<>();
-        HotelSeason obj=null;
+        HotelSeason obj;
         try{
             PreparedStatement pr=DBConnector.getInstace().prepareStatement(query);
             pr.setInt(1,id);
             ResultSet rs=pr.executeQuery();
             while(rs.next()){
+                obj=new HotelSeason();
+                obj.setId(rs.getInt("id"));
                 obj.setSeason_start(rs.getString("season_start"));
                 obj.setSeason_end(rs.getString("season_end"));
                 obj.setHotel_id(rs.getInt("hotel_id"));

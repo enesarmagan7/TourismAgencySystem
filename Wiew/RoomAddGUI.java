@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class RoomAddGUI extends JFrame {
-    private final Employee employee;
+    private  Employee employee;
     private JPanel wrapper;
     private JComboBox cmb_hotelname;
     private JComboBox cmb_room_type;
@@ -38,11 +38,11 @@ public class RoomAddGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
-        radioButton1.setText("1");
-        radioButton1.setText("2");
-        radioButton1.setText("3");
-        radioButton1.setText("4");
-        radioButton1.setText("5");
+        radioButton1.setText(Helper.roomProperty("1"));
+        radioButton2.setText(Helper.roomProperty("2"));
+        radioButton3.setText(Helper.roomProperty("3"));
+        radioButton4.setText(Helper.roomProperty("4"));
+        radioButton5.setText(Helper.roomProperty("5"));
         loadhotelNameCombo();
         laodhotelTypeCombo();
         laodSeasonCombo();
@@ -72,17 +72,23 @@ public class RoomAddGUI extends JFrame {
              int hotel_type_id=Hoteltype.getKey();
              Item hotelname=(Item)cmb_hotelname.getSelectedItem();
              int hotel_id=hotelname.getKey();
+
+
+
+
              for(HotelSeason obj: HotelSeason.getListByHotelID(hotel_id)) //season id yi çekmek için
              {
-                 String season=(obj.getSeason_start().toString()+"-"+obj.getSeason_end().toString());
-                 if(season.equals(cmb_season.getSelectedItem().toString())){
-                     season_id=obj.getId();
+                 String season = (obj.getSeason_start().toString() + "-" + obj.getSeason_end().toString());
+                 if (season.equals(cmb_season.getSelectedItem().toString())) {
+                     season_id = obj.getId();
                      break;
                  }
+             }
                  if(Room.add(roomType,stock,season_id,adult_price,child_price,hotel_type_id,hotel_id)){
-                     ArrayList<Room> roomList=new ArrayList<>();
+                     ArrayList<Room> roomList=Room.getList();
                      Room addedRoom=roomList.get(Room.getList().size()-1);
                      int addedroom_id=addedRoom.getId();
+                     System.out.println(addedroom_id);
                      String roomProperties="";
                      if(radioButton1.isSelected()){
                          roomProperties+="\n"+radioButton1.getText();
@@ -100,18 +106,36 @@ public class RoomAddGUI extends JFrame {
                      if(radioButton5.isSelected()){
                          roomProperties+="\n"+radioButton5.getText();
                      }
+                     RoomProperties.add(roomProperties,addedroom_id,fld_bed.getText(),Integer.parseInt(fld_area.getText().toString()));
+                     Helper.showMsg("Oda başarılı bir şekilde eklendi");
+                     cmb_hotelname.setSelectedIndex(0);
+                     cmb_season.setSelectedIndex(0);
+                     cmb_pansiyon.setSelectedIndex(0);
+                     cmb_room_type.setSelectedIndex(0);
+                     fld_stock.setText(null);
+                     fld_bed.setText(null);
+                     fld_area.setText(null);
+                     fld_adult_price.setText(null);
+                     fld_child_price.setText(null);
+                     radioButton1.setSelected(false);
+                     radioButton2.setSelected(false);
+                     radioButton3.setSelected(false);
+                     radioButton4.setSelected(false);
+                     radioButton5.setSelected(false);
              }
              }
          }
 
-            }
+
         });
     }
     //Otel isimlerini comobaxa getiren metot.
-private void loadhotelNameCombo(){
+public void loadhotelNameCombo(){
+    Item hotelItem=(Item) cmb_hotelname.getSelectedItem();
         cmb_hotelname.removeAllItems();
         cmb_hotelname.addItem(new Item(0,null));
-        for(Hotel Obj: Hotel.getList()){
+
+        for(Hotel Obj:Hotel.getList()){
             cmb_hotelname.addItem(new Item(Obj.getId(), Obj.getName()));
         }
 }
@@ -121,6 +145,7 @@ private void laodhotelTypeCombo(){
         cmb_pansiyon.addItem(new Item(0,null));
         for(HotelType obj: HotelType.getListByHotelID(hotelItem.getKey())){
             cmb_pansiyon.addItem(new Item(obj.getId(),obj.getType()));
+            System.out.println(obj.getId());
         }
 }
 private void laodSeasonCombo(){

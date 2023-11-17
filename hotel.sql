@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 16 Kas 2023, 11:02:55
+-- Üretim Zamanı: 17 Kas 2023, 18:51:51
 -- Sunucu sürümü: 8.0.31
 -- PHP Sürümü: 7.4.33
 
@@ -42,9 +42,9 @@ CREATE TABLE `hotel` (
 --
 
 INSERT INTO `hotel` (`id`, `name`, `star`, `hotel_property`, `address`, `phone`, `email`) VALUES
-(1, 'Swiss', '*****', 'İnternet\nÜcretsiz WiFi', 'İstanbul/Avcılar', '05343434', 'swis@'),
-(2, 'İzmir Hotel', '****', 'Ücretsiz Otopark', 'İzmir MERKEZ NO:6', '132112312', 'izmirhotel>gmail.com'),
-(3, 'Hilton', '****', 'Fitness Center', 'Ankara', '01261232112', 'hilton@hotel.com');
+(1, 'Swiss', '*****', 'İnternet\nÜcretsiz WiFi', 'İstanbul/Avcılar', '05343434333', 'swis@hotel.com'),
+(3, 'Hilton', '****', 'Fitness Center', 'Ankara', '01261232112', 'hilton@hotel.com'),
+(5, 'İzmir Hotel', '****', 'Ücretsiz Wifi', 'İzmir Merkez No:7', '0324324', 'izmirhotel@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -65,6 +65,13 @@ CREATE TABLE `reservation_info` (
   `child_count` int DEFAULT NULL,
   `total_price` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Tablo döküm verisi `reservation_info`
+--
+
+INSERT INTO `reservation_info` (`id`, `room_id`, `name`, `phone`, `email`, `note`, `checkin_date`, `checkout_date`, `adult_count`, `child_count`, `total_price`) VALUES
+(22, 4, 'Enes', 'aycan', 'enes34.point@gmail.com', 'Sabah erken geleceğim', '22/12/2023', '25/12/2023', 2, 1, 4500);
 
 -- --------------------------------------------------------
 
@@ -88,14 +95,9 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`id`, `room_type`, `stock`, `season_id`, `adult_price`, `child_price`, `hotel_type_id`, `hotel_id`) VALUES
-(3, 'Suit', 2, 1, 400, 100, 1, 1),
-(4, 'Double', 1, 1, 700, 100, 1, 1),
-(5, 'Single', 2, 1, 350, 100, 1, 1),
-(6, 'Double', 1, 1, 300, 100, 1, 1),
-(7, 'Double', 2, 1, 300, 100, 1, 1),
-(8, 'Double', 2, 1, 250, 100, 1, 1),
-(9, 'Double', 3, 3, 500, 150, 3, 3),
-(10, 'Suıt', 15, 1, 400, 200, 4, 2);
+(3, 'Suit', 45, 1, 400, 100, 1, 1),
+(4, 'Double', 24, 1, 700, 100, 1, 1),
+(6, 'Double', 1, 1, 300, 100, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,7 @@ CREATE TABLE `room_properties` (
 --
 
 INSERT INTO `room_properties` (`id`, `room_property`, `room_id`, `bed`, `area`) VALUES
-(2, 'televizyon', 6, '2', 45),
+(2, 'televizyon,Oyun Konsolu', 6, '2', 45),
 (3, '\ntelevizyon', 3, '3', 50),
 (4, '\ntelevizyon', 4, '4', 45);
 
@@ -140,7 +142,10 @@ CREATE TABLE `season` (
 INSERT INTO `season` (`id`, `season_start`, `season_end`, `hotel_id`) VALUES
 (1, '21/12/2023', '21/05/2024', 1),
 (3, '10/12/2023', '06/06/2024', 3),
-(5, '02/01/2024', '05/05/2024', 3);
+(5, '02/01/2024', '05/05/2024', 3),
+(6, '29/12/2023', '07/12/2024', 1),
+(7, '23/12/2023', '12/01/2024', 5),
+(8, '', '', 5);
 
 -- --------------------------------------------------------
 
@@ -162,7 +167,8 @@ INSERT INTO `type_hotel` (`id`, `type`, `hotel_id`) VALUES
 (1, 'Herşey Dahil', 1),
 (2, 'Tam Pansiyon', 1),
 (3, 'Oda Kahvaltı', 3),
-(4, 'Herşey Dahil', 2);
+(6, 'Tam Pansiyon', 5),
+(7, 'Yarım Pansiyon', 5);
 
 -- --------------------------------------------------------
 
@@ -247,37 +253,37 @@ ALTER TABLE `user`
 -- Tablo için AUTO_INCREMENT değeri `hotel`
 --
 ALTER TABLE `hotel`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `reservation_info`
 --
 ALTER TABLE `reservation_info`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `room`
 --
 ALTER TABLE `room`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `room_properties`
 --
 ALTER TABLE `room_properties`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `season`
 --
 ALTER TABLE `season`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `type_hotel`
 --
 ALTER TABLE `type_hotel`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `user`

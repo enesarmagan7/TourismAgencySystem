@@ -142,4 +142,111 @@ public class Room {
         }
         return true;
     }
+    public static ArrayList<Room> getListByID(int hotel_id){
+        ArrayList<Room> getRoomList=new ArrayList<>();
+        Room obj=null;
+        String query="SELECT* FROM room WHERE hotel_id=?";
+        try {
+            PreparedStatement pr=DBConnector.getInstace().prepareStatement(query);
+            pr.setInt(1,hotel_id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setRoom_type(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+                getRoomList.add(obj);
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return getRoomList;
+    }
+    public static ArrayList<Room> getListByquery(String query){
+        ArrayList<Room> getRoomList=new ArrayList<>();
+        Room obj=null;
+
+        try {
+            PreparedStatement pr=DBConnector.getInstace().prepareStatement(query);
+
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setRoom_type(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+                getRoomList.add(obj);
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return getRoomList;
+    }
+    public static Room getRoomByID(int room_id){
+        String sql="SELECT r.id , r.room_type,r.hotel_type_id, r.stock, r.season_id, r.adult_price, r.child_price,\n" +
+                "       h.id AS hotel_id, h.name, h.star, h.hotel_property, h.address, h.phone, h.email\n" +
+                "FROM Room r\n" +
+                "JOIN Hotel h ON r.hotel_id = h.id\n" +
+                "WHERE r.id = ?;";
+        Room obj=null;
+        try {
+            PreparedStatement pr=DBConnector.getInstace().prepareStatement(sql);
+           pr.setInt(1,room_id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setRoom_type(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return obj;
+    }
+    public static boolean deleteRoomByID(int room_id){
+        String slq="DELETE FROM room WHERE id=?";
+        try{
+            PreparedStatement pr=DBConnector.getInstace().prepareStatement(slq);
+            pr.setInt(1,room_id);
+            return pr.executeUpdate()!=-1;
+        }catch (SQLException e){
+           e.getMessage();
+        }
+        return true;
+    }
+    public static boolean uptadeStock(int room_id,int stock){
+
+            String query="UPDATE room SET stock=? WHERE id=?";
+            try{
+                PreparedStatement pr=DBConnector.getInstace().prepareStatement(query);
+                pr.setInt(1,stock);
+                pr.setInt(2,room_id);
+                return pr.executeUpdate()!=-1;
+            }catch (SQLException e){
+                e.getMessage();
+            }
+            return true;
+    }
+
+
 }
